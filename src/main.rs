@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
+use actix_cors::Cors;
 use actix_files::Files;
-use actix_web::{get, web, middleware::Logger, App, HttpServer,  HttpResponse, Responder, Result};
+use actix_web::{get, http::header, middleware::Logger, web, App, HttpResponse, HttpServer, Responder, Result};
 use serde::Serialize;
 
 mod api;
@@ -33,12 +34,22 @@ async fn main() -> std::io::Result<()> {
     let app_data = web::Data::new(todo_db);
 
     HttpServer::new(move || {
+        let cors = Cors::default()
+            .allowed_origin("http://localhost:5173")
+            .allowed_origin("http://localhost:5173/")
+            .allowed_methods(vec!["GET", "POST"])
+            .allowed_headers(vec![
+                header::CONTENT_TYPE,
+                header::AUTHORIZATION,
+                header::ACCEPT,
+            ]);
         App::new()
             .app_data(app_data.clone())
             .configure(api::api::config)
             .service(health)
-            .service(Files::new("/", "./static", ).index_file("index.html"))
+            .service(Files::new("/", "./static").index_file("index.html"))
             .default_service(web::route().to(not_found))
+            .wrap(cors)
             .wrap(Logger::default())
     })
     .bind(("127.0.0.1", 8080))?
