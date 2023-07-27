@@ -5,3 +5,9 @@ export interface Todo {
     createdAt: string;
     completed: boolean;
 }
+
+export interface NewTodo {
+    title: string;
+    description: string | null;
+    completed: boolean;
+}
