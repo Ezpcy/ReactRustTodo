@@ -1,5 +1,6 @@
-import "./App.css";
 import { useEffect, useState } from "react";
+import Todos from "./components/Todos";
+import BoxComponent from "./providers/BoxProvider";
 
 function App() {
   const [status, setStatus] = useState(null);
@@ -30,7 +31,15 @@ function App() {
   return (
     <>
       {status === "Everything is working fine" ? (
-        <h1>{status}</h1>
+        // center main content
+        <div className="flex justify-center h-100% ">
+          <BoxComponent>
+            <h1 className="text-xl">Todo with a Rust Backend!</h1>
+            <h1 className="text-2xl pt-3 text-green-600">Todos:</h1>
+            <Todos />
+          
+          </BoxComponent>
+        </div>
       ) : (
         <h1>Error wihthin the API</h1>
       )}
