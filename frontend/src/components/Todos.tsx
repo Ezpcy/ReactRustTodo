@@ -66,15 +66,22 @@ const Todos = () => {
               <div className=" bg-gray-100">
                 <div className="flex">
                   {todo.completed ? (
+                    <>
                     <AssignmentLateIcon
                       onClick={() => handleUpdate(todo)}
                       className="text-blue-600 cursor-pointer hover:scale-125 transition"
                     />
+                    <p className="pr-3">Done</p>
+                    </>
                   ) : (
+                    <>
                     <CheckIcon
                       onClick={() => handleUpdate(todo)}
                       className="text-green-600 cursor-pointer hover:scale-125 transition"
                     />
+                    
+                    <p className="pr-3">Open</p>
+                    </>
                   )}
                   <EditModal todo={todo} onUpdate={handleUpdate} />
                   <div onClick={handleDelete(todo, todo.todo_id)}>
